@@ -18,18 +18,19 @@ class ViewController: UIViewController {
     }
     /// Error check computed variables
     private var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
     private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
     
     private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
+        return expressionIsCorrect
     }
     private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
     }
+    
     /// View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,35 +46,33 @@ class ViewController: UIViewController {
         }
         textView.text.append(numberText)
     }
-    
-    @IBAction private func tappedAdditionButton(_ sender: UIButton) {
-        addOperation(operand: "+")
-    }
-    @IBAction private func tappedSubstractionButton(_ sender: UIButton) {
-        addOperation(operand: "-")
-    }
-    @IBAction private func tappedMultiplicationButton(_ sender: Any) {
-        addOperation(operand: "x")
-    }
-    @IBAction private func tappedDivisionButton(_ sender: Any) {
-        addOperation(operand: "÷")
+    @IBAction private func tappedOperandButton(_ sender: UIButton) {
+        //addOperation(operand: "+")
+        guard let operandText = sender.title(for: .normal) else {
+            return
+        }
+        addOperation(operand: operandText)
+        
     }
     @IBAction func tappedDeletedButton(_ sender: Any) {
-        let deleted = textView.text.count - 1
         var text = Array(textView.text)
-        text.remove(at: deleted )
+        text.remove(at: textView.text.count - 1 )
         textView.text = String(text)
     }
     
     ///Press the equal button which activates the calculation
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else {
-            let alertExpression = alertUser(message: "Entrez une expression correcte !")
-            return self.present(alertExpression, animated: true, completion: nil)
+            return self.present(alertUser(message: "Entrez une expression correcte !"), animated: true, completion: nil)
         }
         guard expressionHaveEnoughElement else {
-            let alertCalcul = alertUser(message: "Démarrez un nouveau calcul !")
-            return self.present(alertCalcul, animated: true, completion: nil)
+            return self.present(alertUser(message: "Démarrez un nouveau calcul !"), animated: true, completion: nil)
+        }
+        let isCalculable = dividionBy0()
+        guard !isCalculable else {
+            return self.present(alertUser(message: "Votre calcul est impossible"), animated: true) {
+                self.textView.text = " "
+            }
         }
         /// Create local copy of operations
         var operationsToReduce = elements
@@ -96,5 +95,15 @@ class ViewController: UIViewController {
             let alertOperand = alertUser(message: "Un operateur est déja mis !")
             self.present(alertOperand, animated: true, completion: nil)
         }
+    }
+    func dividionBy0() -> Bool {
+        let text = Array(textView.text)
+        
+        for (index, _) in text.enumerated() {
+            if text[index] == "÷" && text[index + 2] == "0"{
+                return true
+            }
+        }
+        return false
     }
 }
