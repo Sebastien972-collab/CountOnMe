@@ -58,6 +58,13 @@ class ViewController: UIViewController {
     @IBAction private func tappedDivisionButton(_ sender: Any) {
         addOperation(operand: "÷")
     }
+    @IBAction func tappedDeletedButton(_ sender: Any) {
+        let deleted = textView.text.count - 1
+        var text = Array(textView.text)
+        text.remove(at: deleted )
+        textView.text = String(text)
+    }
+    
     ///Press the equal button which activates the calculation
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else {

@@ -17,7 +17,7 @@ class Calculation {
     }
     private func calculationPriority() {
         var index = 0
-        while index <= elements.count {
+        while index < elements.count {
             if elements[index] == "x" || elements[index] == "÷" {
                 let newNumber = calcul(left: Int(elements[index - 1])!, operand: elements[index], right: Int(elements[index + 1])!)
                 elements[index - 1] = ("\(newNumber)")
