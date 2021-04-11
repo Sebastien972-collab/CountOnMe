@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         return textView.text.split(separator: " ").map { "\($0)" }
     }    
     private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"  && !isEmpty
     }
     private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
@@ -37,13 +37,16 @@ class ViewController: UIViewController {
         textView.text.append(numberText)
     }
     @IBAction private func tappedOperandButton(_ sender: UIButton) {
+        guard canAddOperator else {
+            present(alertUser(message: "Vous ne pouvez pas ajouté d'opérateur ici"), animated: true, completion: nil)
+            return
+        }
         guard let operandText = sender.title(for: .normal) else {
             return
         }
         addOperation(operand: operandText)
-        
     }
-    @IBAction func dissmissKeyboard(_ sender: Any) {
+    @IBAction private func dissmissKeyboard(_ sender: UITapGestureRecognizer) {
         textView.resignFirstResponder()
     }
     @IBAction private func tappedDeletedButton(_ sender: Any) {
@@ -52,8 +55,11 @@ class ViewController: UIViewController {
             return
         }
         var text = Array(textView.text)
-        text.remove(at: textView.text.count - 1 )
+        text.remove(at: textView.text.count - 1)
         textView.text = String(text)
+    }
+    @IBAction private func longPressDeletedButton(_ sender: UILongPressGestureRecognizer) {
+        textView.text.removeAll()
     }
     ///Press the equal button which activates the calculation
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
@@ -86,6 +92,14 @@ class ViewController: UIViewController {
             textView.text.append(" \(operand) ")
         } else {
             self.present(alertUser(message: "Un operateur est déja mis !"), animated: true, completion: nil)
+        }
+    }
+    private var isEmpty : Bool {
+        let text = Array(textView.text)
+        if text.first == nil || text.first == " "  {
+            return true
+        }else{
+            return false
         }
     }
 }

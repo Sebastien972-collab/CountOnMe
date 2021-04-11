@@ -24,6 +24,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" text="1+1=2" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
                                 <rect key="frame" x="14" y="52" width="400" height="537"/>
                                 <color key="backgroundColor" red="0.24527746819999999" green="0.53481305040000005" blue="0.58749136739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="numberPad" returnKeyType="continue"/>
@@ -174,12 +175,14 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FiA-dk-QAv">
                                         <rect key="frame" x="0.0" y="0.0" width="56.333333333333336" height="63"/>
                                         <color key="backgroundColor" systemColor="linkColor"/>
+                                        <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <state key="normal" title="AC">
                                             <color key="titleColor" red="0.96119505169999997" green="0.94115549330000003" blue="0.94082975390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="tappedDeletedButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="Vjf-Xg-X5u"/>
+                                            <outletCollection property="gestureRecognizers" destination="qHZ-WU-lDP" appends="YES" id="e1x-Ee-PvH"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-P5-55X">
@@ -252,6 +255,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AWJ-Vl-uau"/>
                         <color key="backgroundColor" red="0.87536688539999996" green="0.84808511389999996" blue="0.83804947389999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="AWJ-Vl-uau" firstAttribute="bottom" secondItem="ogr-Aw-e1h" secondAttribute="bottom" constant="25" id="3RJ-8z-kQv"/>
                             <constraint firstItem="AWJ-Vl-uau" firstAttribute="trailing" secondItem="T2H-yn-nBB" secondAttribute="trailing" constant="14" id="AWv-Vw-FJw"/>
@@ -304,6 +308,9 @@
                                 <exclude reference="tR7-aG-gRU"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="v9V-2F-4Cm" appends="YES" id="5h8-WC-VHW"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="textView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
@@ -320,11 +327,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="gGp-QH-ESV">
+                <tapGestureRecognizer id="v9V-2F-4Cm">
                     <connections>
-                        <action selector="dissmissKeyboard:" destination="eqK-jh-KKu" id="NGQ-gw-Hu3"/>
+                        <action selector="dissmissKeyboard:" destination="eqK-jh-KKu" id="X4J-aW-zat"/>
                     </connections>
                 </tapGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="qHZ-WU-lDP">
+                    <connections>
+                        <action selector="longPressDeletedButton:" destination="eqK-jh-KKu" id="n5G-tn-XhZ"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="85.507246376811594" y="218.30357142857142"/>
         </scene>

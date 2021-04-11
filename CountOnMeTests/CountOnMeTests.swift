@@ -15,25 +15,25 @@ class SimpleCalcTests: XCTestCase {
         let newCalcul = Calculation(elements: ["5","x","2"])
         let calcul5 = newCalcul.calculateState()
         
-        XCTAssert(calcul5 ==  ["10.0"])
+        XCTAssert(calcul5 ==  ["10"])
     }
     func testGiven10_WhenWeDivideFor2_Then5() {
         let newCalcul = Calculation(elements: ["10","÷","2"])
         let calcul5 = newCalcul.calculateState()
         
-        XCTAssert(calcul5 == ["5.0"])
+        XCTAssert(calcul5 == ["5"])
     }
     func testGiven5_WhenWeAddFor2_Then7() {
         let newCalcul = Calculation(elements: ["5","+","2"])
         let calcul5 = newCalcul.calculateState()
         
-        XCTAssert(calcul5 ==  ["7.0"])
+        XCTAssert(calcul5 ==  ["7"])
     }
     func testGiven10_WhenWeAddFor2_Then8() {
         let newCalcul = Calculation(elements: ["10","-","2"])
         let calcul5 = newCalcul.calculateState()
         
-        XCTAssert(calcul5 == ["8.0"])
+        XCTAssert(calcul5 == ["8"])
     }
     func testGivenRandomNunbers_WhenAddMulDivide_ThenGoodResult() {
         let operand1 = Double.random(in: 0...1000)

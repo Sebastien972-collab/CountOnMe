@@ -57,7 +57,9 @@ class Calculation {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
-        return operationsToReduce
+        let result = ["\(clearResult(operand: operationsToReduce))"]
+        
+        return result
     }
     private func calcul(left : Double, operand : String, right : Double) -> Double {
         var result = 0.0
@@ -69,6 +71,28 @@ class Calculation {
         default: fatalError("Unknown operator !")
         }
         return result
+    }
+    private func clearResult(operand : [String]) -> String {
+        var cleanArray = Array(operand[0])
+        var i = 0
+        var indexForDeleted1 = 0
+        var indexForDeleted2 = 0
+        var isCleanable = false
+        
+        while i < cleanArray.count - 1 {
+            if cleanArray[i] == "." && cleanArray[i + 1] == "0"{
+                isCleanable = true
+                indexForDeleted1 = i
+                indexForDeleted2 = i + 1
+            }
+            i += 1
+        }
+        guard isCleanable else {
+            return String(cleanArray)
+        }
+        cleanArray.remove(at: indexForDeleted2)
+        cleanArray.remove(at: indexForDeleted1)
+        return String(cleanArray)
     }
 }
 
