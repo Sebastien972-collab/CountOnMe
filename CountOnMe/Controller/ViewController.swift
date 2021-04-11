@@ -11,21 +11,12 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak private var textView: UITextView!
     @IBOutlet private var numberButtons: [UIButton]!
-    
     //MARK:- Variable
     private var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" }
-    }
-    /// Error check computed variables
-    private var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
-    }
-    private var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-    
+    }    
     private var canAddOperator: Bool {
-        return expressionIsCorrect
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
     private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
@@ -34,7 +25,6 @@ class ViewController: UIViewController {
     /// View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     //MARK:- View actions
     @IBAction private func tappedNumberButton(_ sender: UIButton) {
@@ -47,38 +37,41 @@ class ViewController: UIViewController {
         textView.text.append(numberText)
     }
     @IBAction private func tappedOperandButton(_ sender: UIButton) {
-        //addOperation(operand: "+")
         guard let operandText = sender.title(for: .normal) else {
             return
         }
         addOperation(operand: operandText)
         
     }
-    @IBAction func tappedDeletedButton(_ sender: Any) {
+    @IBAction func dissmissKeyboard(_ sender: Any) {
+        textView.resignFirstResponder()
+    }
+    @IBAction private func tappedDeletedButton(_ sender: Any) {
+        guard textView.text.first != nil else {
+            present(alertUser(message: "Il n'y a pas d'élement à effacer"), animated: true, completion: nil)
+            return
+        }
         var text = Array(textView.text)
         text.remove(at: textView.text.count - 1 )
         textView.text = String(text)
     }
-    
     ///Press the equal button which activates the calculation
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
+        /// Create local copy of operations
+        var operationsToReduce = elements
+        /// Iterate over operations while an operand still here
+        let newCalcul = Calculation(elements: operationsToReduce)
+        guard newCalcul.expressionIsCorrect else {
             return self.present(alertUser(message: "Entrez une expression correcte !"), animated: true, completion: nil)
         }
-        guard expressionHaveEnoughElement else {
+        guard newCalcul.expressionHaveEnoughElement else {
             return self.present(alertUser(message: "Démarrez un nouveau calcul !"), animated: true, completion: nil)
         }
-        let isCalculable = dividionBy0()
-        guard !isCalculable else {
+        guard newCalcul.isCalculable else {
             return self.present(alertUser(message: "Votre calcul est impossible"), animated: true) {
                 self.textView.text = " "
             }
         }
-        /// Create local copy of operations
-        var operationsToReduce = elements
-        
-        /// Iterate over operations while an operand still here
-        let newCalcul = Calculation(elements: operationsToReduce)
         operationsToReduce = newCalcul.calculateState()
         textView.text.append(" = \(operationsToReduce.first!)")
     }
@@ -92,18 +85,7 @@ class ViewController: UIViewController {
         if canAddOperator {
             textView.text.append(" \(operand) ")
         } else {
-            let alertOperand = alertUser(message: "Un operateur est déja mis !")
-            self.present(alertOperand, animated: true, completion: nil)
+            self.present(alertUser(message: "Un operateur est déja mis !"), animated: true, completion: nil)
         }
-    }
-    func dividionBy0() -> Bool {
-        let text = Array(textView.text)
-        
-        for (index, _) in text.enumerated() {
-            if text[index] == "÷" && text[index + 2] == "0"{
-                return true
-            }
-        }
-        return false
     }
 }

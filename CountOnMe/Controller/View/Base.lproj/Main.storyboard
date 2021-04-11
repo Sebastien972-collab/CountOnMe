@@ -26,7 +26,7 @@
                                 <color key="backgroundColor" red="0.24527746819999999" green="0.53481305040000005" blue="0.58749136739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="numberPad" returnKeyType="continue"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="isI-Gg-Iye">
                                 <rect key="frame" x="16" y="597" width="398" height="206"/>
@@ -274,7 +274,6 @@
                             <constraint firstItem="AWJ-Vl-uau" firstAttribute="trailing" secondItem="ogr-Aw-e1h" secondAttribute="trailing" constant="14" id="dLI-29-2Nf"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="top" secondItem="isI-Gg-Iye" secondAttribute="bottom" constant="6" id="f3Z-er-zac"/>
                             <constraint firstItem="T2H-yn-nBB" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="14" id="gIM-ug-Uts"/>
-                            <constraint firstItem="AWJ-Vl-uau" firstAttribute="bottom" secondItem="T2H-yn-nBB" secondAttribute="bottom" constant="303" id="kT6-xl-x7I"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="20" id="rTg-F4-aE3">
                                 <variation key="heightClass=regular-widthClass=compact" constant="21"/>
                             </constraint>
@@ -321,6 +320,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="gGp-QH-ESV">
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="eqK-jh-KKu" id="NGQ-gw-Hu3"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="85.507246376811594" y="218.30357142857142"/>
         </scene>

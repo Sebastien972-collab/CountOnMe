@@ -10,8 +10,23 @@ import Foundation
 import UIKit
 
 class Calculation {
-    var elements : [String] = []
-    
+    private var elements : [String] = []
+    /// Error check computed variables
+     var expressionIsCorrect: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
+    }
+     var expressionHaveEnoughElement: Bool {
+        return elements.count >= 3
+    }
+    var isCalculable : Bool {
+        for (index, _) in elements.enumerated() {
+            if elements[index] == "÷" && elements[index + 1] == "0"{
+                return false
+            }
+        }
+        return true
+    }
+
     init(elements : [String]) {
         self.elements = elements
     }
@@ -19,7 +34,7 @@ class Calculation {
         var index = 0
         while index < elements.count {
             if elements[index] == "x" || elements[index] == "÷" {
-                let newNumber = calcul(left: Int(elements[index - 1])!, operand: elements[index], right: Int(elements[index + 1])!)
+                let newNumber = calcul(left: Double(elements[index - 1])!, operand: elements[index], right: Double(elements[index + 1])!)
                 elements[index - 1] = ("\(newNumber)")
                 elements.remove(at: index)
                 elements.remove(at: index)
@@ -35,17 +50,17 @@ class Calculation {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
+            let left = Double(operationsToReduce[0])!
             let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
-            let result = calcul(left: left, operand: operand, right: right)
+            let right = Double(operationsToReduce[2])!
+            let result = calcul(left: left, operand: operand, right: right) 
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
         return operationsToReduce
     }
-    private func calcul(left : Int, operand : String, right : Int) -> Int {
-        var result = 0
+    private func calcul(left : Double, operand : String, right : Double) -> Double {
+        var result = 0.0
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
