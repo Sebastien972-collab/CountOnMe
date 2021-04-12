@@ -86,6 +86,12 @@ class Calculation {
         var indexForDeleted1 = 0
         var indexForDeleted2 = 0
         var isCleanable = false
+        
+        guard cleanArray != ["0",".","0"] else {
+            cleanArray.remove(at: 2)
+            cleanArray.remove(at: 1)
+            return String(cleanArray)
+        }
         while j < cleanArray.count - 1 && cleanArray[j] != "."{
             let add = String(cleanArray[j])
             numberBeforeComma.append(add)

@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         }
         guard newCalcul.isCalculable else {
             return self.present(alertUser(message: "Votre calcul est impossible"), animated: true) {
-                self.textView.text = " "
+                self.textView.text.removeAll()
             }
         }
         operationsToReduce = newCalcul.calculateState()
@@ -105,7 +105,9 @@ class ViewController: UIViewController {
         let text = Array(textView.text)
         if text.first == nil || text.first == " "  {
             return true
+        }else{
+            return false
         }
-        return false
+        
     }
 }

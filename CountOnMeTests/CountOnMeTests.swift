@@ -87,4 +87,8 @@ class SimpleCalcTests: XCTestCase {
         let newCalcul = Calculation(elements: ["15800000658","÷","45889855052089"])
         XCTAssertEqual(newCalcul.calculateState(), ["0.00034430269261181187"])
     }
+    func testGivenANumber_WhenSusbtractByTheSameNumber_ThenEqual0Not0Comma0() {
+        let newCalcul = Calculation(elements: ["9","-","9"])
+        XCTAssertEqual(newCalcul.calculateState(), ["0"])
+    }
 }
