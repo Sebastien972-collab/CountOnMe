@@ -26,7 +26,6 @@ class Calculation {
         }
         return true
     }
-
     init(elements : [String]) {
         self.elements = elements
     }
@@ -75,17 +74,27 @@ class Calculation {
     private func clearResult(operand : [String]) -> String {
         var cleanArray = Array(operand[0])
         var i = 0
+        var j = 0
+        var numberBeforeComma : [String] = []
         var indexForDeleted1 = 0
         var indexForDeleted2 = 0
         var isCleanable = false
-        
-        while i < cleanArray.count - 1 {
-            if cleanArray[i] == "." && cleanArray[i + 1] == "0"{
-                isCleanable = true
-                indexForDeleted1 = i
-                indexForDeleted2 = i + 1
+        while j < cleanArray.count - 1 && cleanArray[j] != "."{
+            let add = String(cleanArray[j])
+            numberBeforeComma.append(add)
+            j += 1
+        }
+        if let firstNumber = Int(numberBeforeComma[0]) {
+            if firstNumber > 0 {
+                while i < cleanArray.count - 1 {
+                    if cleanArray[i] == "." && cleanArray[i + 1] == "0"{
+                        isCleanable = true
+                        indexForDeleted1 = i
+                        indexForDeleted2 = i + 1
+                    }
+                    i += 1
+                }
             }
-            i += 1
         }
         guard isCleanable else {
             return String(cleanArray)
