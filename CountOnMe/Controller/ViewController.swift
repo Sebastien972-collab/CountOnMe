@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
     }
-    
     /// View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,8 +105,7 @@ class ViewController: UIViewController {
         let text = Array(textView.text)
         if text.first == nil || text.first == " "  {
             return true
-        }else{
-            return false
         }
+        return false
     }
 }
