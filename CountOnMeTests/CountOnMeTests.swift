@@ -83,7 +83,7 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(["\(goodResult)"], newCalcul.calculateState())
         
     }
-    func testGivrnExpression_WhenDivideByALargerNumber_ThenDoesNotEraseThe0AndTheComma()  {
+    func testGivenExpression_WhenDivideByALargerNumber_ThenDoesNotEraseThe0AndTheComma()  {
         let newCalcul = Calculation(elements: ["15800000658","÷","45889855052089"])
         XCTAssertEqual(newCalcul.calculateState(), ["0.00034430269261181187"])
     }

@@ -10,14 +10,17 @@ import Foundation
 import UIKit
 
 class Calculation {
+    /// Get the expression
     private var elements : [String] = []
     /// Error check computed variables
      var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
+    ///Check if expression have enough element
      var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
+    /// Check if expression is calculable
     var isCalculable : Bool {
         for (index, _) in elements.enumerated() {
             if elements[index] == "÷" && elements[index + 1] == "0"{
@@ -29,6 +32,7 @@ class Calculation {
     init(elements : [String]) {
         self.elements = elements
     }
+    /// This function allows the calculation priority
     private func calculationPriority() {
         var index = 0
         while index < elements.count {
@@ -42,6 +46,7 @@ class Calculation {
             index += 1
         }
     }
+    /// This function manages the calculation and returns the result
     func calculateState() -> [String] {
         calculationPriority()
         // Create local copy of operations
@@ -56,10 +61,11 @@ class Calculation {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
-        let result = ["\(clearResult(operand: operationsToReduce))"]
+        let result = ["\(clearResult(result: operationsToReduce))"]
         
         return result
     }
+    /// This is calculation function
     private func calcul(left : Double, operand : String, right : Double) -> Double {
         var result = 0.0
         switch operand {
@@ -71,8 +77,9 @@ class Calculation {
         }
         return result
     }
-    private func clearResult(operand : [String]) -> String {
-        var cleanArray = Array(operand[0])
+    /// This function removes the 0 after the decimal point
+    private func clearResult(result : [String]) -> String {
+        var cleanArray = Array(result[0])
         var i = 0
         var j = 0
         var numberBeforeComma : [String] = []
@@ -104,4 +111,3 @@ class Calculation {
         return String(cleanArray)
     }
 }
-
