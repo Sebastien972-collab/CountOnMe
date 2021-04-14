@@ -15,12 +15,11 @@ class ViewController: UIViewController {
     private var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" }
     }    
-    private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"  && !isEmpty
-    }
+    
     private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
     }
+    let calculator = Calculation()
     /// View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +37,8 @@ class ViewController: UIViewController {
     }
     ///Allows you to add the operator
     @IBAction private func tappedOperandButton(_ sender: UIButton) {
-        guard canAddOperator else {
+        calculator.setExpression(elements: elements)
+        guard calculator.canAddOperator else {
             present(alertUser(message: "Vous ne pouvez pas ajouté d'opérateur ici"), animated: true, completion: nil)
             return
         }
@@ -69,20 +69,20 @@ class ViewController: UIViewController {
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
         /// Create local copy of operations
         var operationsToReduce = elements
+        calculator.setExpression(elements: operationsToReduce)
         /// Iterate over operations while an operand still here
-        let newCalcul = Calculation(elements: operationsToReduce)
-        guard newCalcul.expressionIsCorrect else {
+        guard calculator.expressionIsCorrect else {
             return self.present(alertUser(message: "Entrez une expression correcte !"), animated: true, completion: nil)
         }
-        guard newCalcul.expressionHaveEnoughElement else {
+        guard calculator.expressionHaveEnoughElement else {
             return self.present(alertUser(message: "Démarrez un nouveau calcul !"), animated: true, completion: nil)
         }
-        guard newCalcul.isCalculable else {
+        guard calculator.isCalculable else {
             return self.present(alertUser(message: "Votre calcul est impossible"), animated: true) {
                 self.textView.text.removeAll()
             }
         }
-        operationsToReduce = newCalcul.calculateState()
+        operationsToReduce = calculator.calculateState()
         textView.text.append(" = \(operationsToReduce.first!)")
     }
     //MARK:- Functions
@@ -94,20 +94,12 @@ class ViewController: UIViewController {
     }
     /// Checks if the user can add an operand
     private func addOperation(operand : String) {
-        if canAddOperator {
+        calculator.setExpression(elements: elements)
+        if calculator.canAddOperator {
             textView.text.append(" \(operand) ")
         } else {
             self.present(alertUser(message: "Un operateur est déja mis !"), animated: true, completion: nil)
         }
     }
-    /// Check if expression is empty
-    private var isEmpty : Bool {
-        let text = Array(textView.text)
-        if text.first == nil || text.first == " "  {
-            return true
-        }else{
-            return false
-        }
-        
-    }
+    
 }
