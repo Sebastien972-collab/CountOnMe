@@ -14,7 +14,7 @@ class Calculation {
     private var elements : [String] = []
     /// Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" && !elements.isEmpty
     }
     ///Check if expression have enough element
     var expressionHaveEnoughElement: Bool {
@@ -23,17 +23,19 @@ class Calculation {
     /// Check if expression is calculable
     var isCalculable : Bool {
         for (index, _) in elements.enumerated() {
-            if elements[index] == "÷" && elements[index + 1] == "0" || isEmpty{
+            if elements[index] == "÷" && elements[index + 1] == "0" || elements.isEmpty {
                 return false
             }
         }
         return true
     }
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"  && !isEmpty
+        return expressionIsCorrect
     }
-    func setExpression(elements : [String]) {
-        self.elements = elements
+    func setExpression(elements : String) {
+        if !elements.isEmpty {
+            self.elements = elements.split(separator: " ").map { "\($0)" }
+        }
     }
     /// This function allows the calculation priority
     private func calculationPriority() {
@@ -78,13 +80,6 @@ class Calculation {
         default: fatalError("Unknown operator !")
         }
         return result
-    }
-    /// Check if expression is empty
-    private var isEmpty : Bool {
-        if elements.first == nil || elements.first == " "  {
-            return true
-        }
-        return false
     }
     private func clearResult(number : Double) -> String {
         let stringNumber = String(number)

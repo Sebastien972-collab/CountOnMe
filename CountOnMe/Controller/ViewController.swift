@@ -12,9 +12,9 @@ class ViewController: UIViewController {
     @IBOutlet weak private var textView: UITextView!
     @IBOutlet private var numberButtons: [UIButton]!
     //MARK:- Variable
-    private var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
-    }    
+    private var elements: String {
+        return textView.text
+    }
     
     private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
@@ -68,8 +68,7 @@ class ViewController: UIViewController {
     ///Press the equal button which activates the calculation
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
         /// Create local copy of operations
-        var operationsToReduce = elements
-        calculator.setExpression(elements: operationsToReduce)
+        calculator.setExpression(elements: elements)
         /// Iterate over operations while an operand still here
         guard calculator.expressionIsCorrect else {
             return self.present(alertUser(message: "Entrez une expression correcte !"), animated: true, completion: nil)
@@ -82,7 +81,7 @@ class ViewController: UIViewController {
                 self.textView.text.removeAll()
             }
         }
-        operationsToReduce = calculator.calculateState()
+        let operationsToReduce = calculator.calculateState()
         textView.text.append(" = \(operationsToReduce.first!)")
     }
     //MARK:- Functions
@@ -101,5 +100,4 @@ class ViewController: UIViewController {
             self.present(alertUser(message: "Un operateur est déja mis !"), animated: true, completion: nil)
         }
     }
-    
 }
