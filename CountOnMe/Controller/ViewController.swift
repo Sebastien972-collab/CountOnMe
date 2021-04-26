@@ -15,11 +15,8 @@ class ViewController: UIViewController {
     private var elements: String {
         return textView.text
     }
+    private let calculator = Calculation()
     
-    private var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
-    }
-    let calculator = Calculation()
     /// View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,17 +24,23 @@ class ViewController: UIViewController {
     //MARK:- View actions
     ///Allows you to add number
     @IBAction private func tappedNumberButton(_ sender: UIButton) {
+        calculator.setExpression(elements: elements)
+        if calculator.haveResult {
+            textView.text.removeAll()
+        }
         guard let numberText = sender.title(for: .normal) else {
             return
-        }
-        if expressionHaveResult {
-            textView.text = ""
         }
         textView.text.append(numberText)
     }
     ///Allows you to add the operator
     @IBAction private func tappedOperandButton(_ sender: UIButton) {
         calculator.setExpression(elements: elements)
+        guard !calculator.haveResult else {
+            textView.text.removeAll()
+            present(alertUser(message: "Nous  ne pouvons pas donner suite à ce calcul, recommencez"), animated: true, completion: nil)
+            return
+        }
         guard calculator.canAddOperator else {
             present(alertUser(message: "Vous ne pouvez pas ajouté d'opérateur ici"), animated: true, completion: nil)
             return
@@ -57,6 +60,10 @@ class ViewController: UIViewController {
             present(alertUser(message: "Il n'y a pas d'élement à effacer"), animated: true, completion: nil)
             return
         }
+        guard calculator.haveResult else {
+            textView.text.removeAll()
+            return
+        }
         var text = Array(textView.text)
         text.remove(at: textView.text.count - 1)
         textView.text = String(text)
@@ -69,6 +76,9 @@ class ViewController: UIViewController {
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
         /// Create local copy of operations
         calculator.setExpression(elements: elements)
+        guard !calculator.haveResult else {
+            return self.present(alertUser(message: "Votre resultat est déja afficher"), animated: true, completion: nil)
+        }
         /// Iterate over operations while an operand still here
         guard calculator.expressionIsCorrect else {
             return self.present(alertUser(message: "Entrez une expression correcte !"), animated: true, completion: nil)

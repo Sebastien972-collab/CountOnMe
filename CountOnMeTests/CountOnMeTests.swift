@@ -93,4 +93,12 @@ class SimpleCalcTests: XCTestCase {
         newCalcul.setExpression(elements: "2 + 3 - 9")
         XCTAssertEqual(true, newCalcul.canAddOperator)
     }
+    func testGivenAExpression_WhenWeHaveResult_TheHaveResultEqualTrue() {
+        newCalcul.setExpression(elements: "2 + 3 = 9")
+        XCTAssertEqual(true, newCalcul.haveResult)
+    }
+    func testGivenAExpression_WhenWeDontHaveResult_TheHaveResultEqualFalse() {
+        newCalcul.setExpression(elements: "2 + 3 + 9")
+        XCTAssertEqual(false, newCalcul.haveResult)
+    }
 }

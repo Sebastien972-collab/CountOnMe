@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 
+//MARK: - Propriétés
 class Calculation {
     /// Get the expression
     private var elements : [String] = []
@@ -23,20 +23,32 @@ class Calculation {
     /// Check if expression is calculable
     var isCalculable : Bool {
         for (index, _) in elements.enumerated() {
-            if elements[index] == "÷" && elements[index + 1] == "0" || elements.isEmpty {
+            if elements[index] == "÷" && elements[index + 1] == "0" || elements.isEmpty  {
                 return false
             }
         }
         return true
     }
+    ///Check if can add operator
     var canAddOperator: Bool {
         return expressionIsCorrect
     }
+    ///Assigns a value to elements
     func setExpression(elements : String) {
         if !elements.isEmpty {
             self.elements = elements.split(separator: " ").map { "\($0)" }
         }
     }
+    ///Check if this is a display result
+    var haveResult :  Bool {
+        for element in elements {
+            if element == "=" {
+                return true
+            }
+        }
+        return false
+    }
+    //MARK: - Méthodes
     /// This function allows the calculation priority
     private func calculationPriority() {
         var index = 0
@@ -66,7 +78,6 @@ class Calculation {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(clearResult(number: result))", at: 0)
         }
-        //let result = ["\(clearResult(result: operationsToReduce))"]
         return ["\(operationsToReduce[0])"]
     }
     /// This is calculation function
@@ -81,6 +92,7 @@ class Calculation {
         }
         return result
     }
+    /// Alows remove zeros after the comma
     private func clearResult(number : Double) -> String {
         let stringNumber = String(number)
         let index = stringNumber.count - 1
