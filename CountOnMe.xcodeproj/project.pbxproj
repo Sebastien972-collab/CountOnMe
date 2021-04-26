@@ -82,9 +82,9 @@
 		1FA43BD1224E569900F565CB /* CountOnMe */ = {
 			isa = PBXGroup;
 			children = (
+				8B69CB122636F92800713FF3 /* Model */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 				8B16ADF225E7FC1D0091AEF8 /* Source File */,
-				8B16ADF125E7FC110091AEF8 /* model */,
 				8B16ADEC25E7FBF80091AEF8 /* Controller */,
 				8B16ADF025E7FC070091AEF8 /* View */,
 			);
@@ -117,14 +117,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		8B16ADF125E7FC110091AEF8 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				8BDD1BA725E944E30064D06A /* Calculation.swift */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
 		8B16ADF225E7FC1D0091AEF8 /* Source File */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +124,14 @@
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
 			);
 			path = "Source File";
+			sourceTree = "<group>";
+		};
+		8B69CB122636F92800713FF3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8BDD1BA725E944E30064D06A /* Calculation.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		8BDD1BD325EC28E20064D06A /* CountOnMeTests */ = {
