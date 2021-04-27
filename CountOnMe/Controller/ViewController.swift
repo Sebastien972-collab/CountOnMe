@@ -56,11 +56,12 @@ class ViewController: UIViewController {
     }
     ///Delete an element of the expression
     @IBAction private func tappedDeletedButton(_ sender: Any) {
+        calculator.setExpression(elements: elements)
         guard textView.text.first != nil else {
             present(alertUser(message: "Il n'y a pas d'élement à effacer"), animated: true, completion: nil)
             return
         }
-        guard calculator.haveResult else {
+        guard !calculator.haveResult else {
             textView.text.removeAll()
             return
         }
